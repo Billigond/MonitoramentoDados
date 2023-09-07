@@ -8,7 +8,7 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     # Crie uma lista de sexo
-    sexo = ["Homem","Mulher"]
+    sexo = ["Homem","Mulher","Outros"]
 
     # Gere Gastos aleatório para cada sexo
     Gastos = [random.randint(1000, 3000) for _ in sexo]
@@ -18,16 +18,11 @@ def index():
     df = pd.DataFrame(dados)
 
     # Visualização de barras
-    bar = px.bar(df, x='sexo', y='Gastos', title='Gastos Mensais',text='Gastos')
+    bar = px.bar(df, x='sexo', y='Gastos', title='Gastos Mensais',text='Gastos',color=df["sexo"])
     plot_div = bar.to_html(full_html=False)
 
-    # Visualização de linha
-    fig = px.line(df, x='sexo', y='Gastos', title='Evolução de Gastos',text='Gastos')
-    line_div = fig.to_html(full_html=False)
-    
-    
 
-    return render_template('index.html', line_div=line_div, plot_div=plot_div)
+    return render_template('index.html', plot_div=plot_div)
 
 
 if __name__ == '__main__':
